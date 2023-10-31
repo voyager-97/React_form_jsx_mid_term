@@ -10,25 +10,33 @@ function NewProductForm() {
 
     const handleSubmit = () => {
         console.log('Form submitted with values:', { name, description, category, quantity, price });
-        // Logic to save form data (if needed)
-        // Navigate or do something else after form submission
+        console.log('Image:', image);
+
+        setName('');
+        setDescription('');
+        setCategory('');
+        setQuantity('');
+        setPrice('');
+        setImage(null);
+
     };
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
-        if (file) {
-            setImage(URL.createObjectURL(file));
-        }
+        setImage(file);
     };
 
     return (
         <div>
             <h2>New Product</h2>
-            <label>
-                UPLOAD PHOTO +
-                <input type="file" onChange={handleImageUpload} style={{ display: 'none' }} />
-            </label>
-            {image && <img src={image} alt="Uploaded preview" width="100" />}
+            <button type="button" onClick={(event) => {
+                    event.preventDefault();
+                    document.getElementById("fileInput1").click();
+
+                  }}>UPLOAD LOGO +</button>
+                <input  id="fileInput1" type="file" onChange={handleImageUpload} style={{ display: 'none' }} />
+            
+            {image && <p>{image.name}</p>}
             <input
                 type="text"
                 placeholder="Name"
@@ -59,7 +67,7 @@ function NewProductForm() {
                 onChange={e => setPrice(e.target.value)}
             />
             <button onClick={handleSubmit}>SUBMIT</button>
-            <button>CANCEL</button>
+            <button onClick={() => { setName(''); setDescription('');  setCategory(''); setQuantity(''); setPrice('');setImage(null); }}>CANCEL</button>
         </div>
     );
 }

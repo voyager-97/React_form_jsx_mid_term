@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function NewShopForm() {
@@ -9,25 +9,34 @@ function NewShopForm() {
 
     const handleSubmit = () => {
         console.log('Form submitted with Name:', name, 'and Description:', description);
+        console.log('Image:', image);
         // Logic to save form data (if needed)
-        navigate('/product-form');
+        
+        // Clear all fields after submission
+        setName('');
+        setDescription('');
+        setImage(null);
+
+      
     };
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
-        if (file) {
-            setImage(URL.createObjectURL(file));
-        }
+        setImage(file);
     };
 
     return (
         <div>
             <h2>New Shop</h2>
             <label>
-                UPLOAD LOGO +
-                <input type="file" onChange={handleImageUpload} style={{ display: 'none' }} />
+                <button type="button" onClick={(event) => {
+                    event.preventDefault();
+                    document.getElementById("fileInput").click();
+
+                  }}>UPLOAD LOGO +</button>
+                <input id="fileInput" type="file" onChange={handleImageUpload} style={{ display: 'none' }} />
             </label>
-            {image && <img src={image} alt="Uploaded preview" width="100" />}
+            {image && <p>{image.name}</p>}
             <input
                 type="text"
                 placeholder="Name"
@@ -40,7 +49,7 @@ function NewShopForm() {
                 onChange={e => setDescription(e.target.value)}
             ></textarea>
             <button onClick={handleSubmit}>SUBMIT</button>
-            <button>CANCEL</button>
+            <button onClick={() => { setName(''); setDescription(''); setImage(null); }}>CANCEL</button>
         </div>
     );
 }
